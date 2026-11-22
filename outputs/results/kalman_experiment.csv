@@ -1,0 +1,6 @@
+setting,jitter,flicker_per_second,accuracy
+Raw (no filter),0.0165,0.6085,0.8694
+"Kalman, Q/R = 0.001",0.0054,0.2181,0.8673
+"Kalman, Q/R = 0.01",0.0066,0.2688,0.867
+"Kalman, Q/R = 0.1",0.0088,0.3144,0.8683
+"Kalman, Q/R = 1.0",0.0118,0.4209,0.8685
