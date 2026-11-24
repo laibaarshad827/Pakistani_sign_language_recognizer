@@ -69,8 +69,7 @@ class TrainerSession:
                       key=lambda row: row[3])
         weakest = sorted(self.learner.classes, key=self.learner.mastery)[:5]
         return {"correct": sum(wins.values()), "rounds": len(self.history), "rows": rows,
-                "weakest": [(sign, self.learner.mastery(sign)) for sign in weakest]}
-
+                "weakest": [(sign, self.learner.mastery(sign), self.learner.attempts(sign)) for sign in weakest]}
     def start_round(self, now):
         """Pick the next sign (the weakest one) and start the clock."""
         previous = self.target

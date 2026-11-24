@@ -18,7 +18,8 @@ CARD = (84, 58, 44)
 WHITE, GREY = (255, 255, 255), (185, 175, 165)
 TEAL, PURPLE, PINK = (180, 205, 0), (220, 80, 150), (170, 110, 255)
 YELLOW, ORANGE, GREEN, RED = (0, 215, 255), (0, 150, 255), (110, 210, 70), (80, 80, 235)
-LEVEL_COLORS = {"Practise a lot": RED, "Practise more": ORANGE, "Almost there": YELLOW, "Well done": GREEN}
+LEVEL_COLORS = {"Practise a lot": RED, "Practise more": ORANGE, "Almost there": YELLOW, "Well done": GREEN,
+                "Not tried yet": GREY}
 
 
 def load_reference(sign, size=220):
@@ -180,9 +181,9 @@ def render_summary(canvas, info):
     for i, line in enumerate(textwrap.wrap(verdict, 30)):
         put(canvas, line, (645, 225 + 24 * i), 0.55, colour)
     put(canvas, "PRACTISE THESE NEXT", (645, 300), 0.5, TEAL)
-    for i, (sign, mastery) in enumerate(summary["weakest"]):
+    for i, (sign, mastery, attempts) in enumerate(summary["weakest"]):
         y = 332 + 30 * i
-        level = practice_level(mastery)
+        level = practice_level(mastery) if attempts else "Not tried yet"
         put(canvas, sign, (645, y), 0.55, WHITE)
         bar(canvas, 750, y - 13, 90, mastery, LEVEL_COLORS[level])
         put(canvas, level, (850, y), 0.42, LEVEL_COLORS[level])

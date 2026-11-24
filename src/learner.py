@@ -37,7 +37,9 @@ class LearnerModel:
     def mastery(self, sign):
         """Average belief that the learner has mastered the sign (0 to 1)."""
         return self.alpha[sign] / (self.alpha[sign] + self.beta[sign])
-
+    def attempts(self, sign):
+        """How many times this sign has been tried so far."""
+        return int(self.alpha[sign] + self.beta[sign] - 2)
     def update(self, sign, success):
         """Update the belief after one attempt."""
         if success:
