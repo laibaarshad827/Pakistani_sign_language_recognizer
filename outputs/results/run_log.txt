@@ -1,0 +1,131 @@
+=== Data checks and features (EDA) (eda.py) ===
+== Size ==
+rows: 6120 | signs: 34 | sessions: ['s1', 's2', 's3']
+
+== Balance: rows per sign (min / max) ==
+180 / 180
+
+rows per session:
+session
+s1    2040
+s2    2040
+s3    2040
+dtype: int64
+
+== Missing values and empty frames ==
+missing cells: 0
+all-zero rows: 0
+rows where part of the hand is outside the image: 0
+
+== Within-take motion (a high value = the hand shape changes during the take) ==
+sign
+tay      0.0659
+pay      0.0546
+qauf     0.0340
+zay      0.0253
+sheen    0.0241
+ain      0.0228
+ghain    0.0228
+say      0.0188
+dtype: float64
+
+Saved 6120 rows x 75 features to data/processed/features.csv
+
+=== Model comparison, all signs (train_eval.py --tag _34signs_v2) ===
+34 classes, sessions: ['s1', 's2', 's3'], excluded: none, merged: none
+Baseline (raw template)    accuracy=0.528  macro-F1=0.480
+SVM on raw coordinates     accuracy=0.717  macro-F1=0.690
+KNN                        accuracy=0.833  macro-F1=0.804
+SVM                        accuracy=0.869  macro-F1=0.839
+Random Forest              accuracy=0.821  macro-F1=0.788
+
+Best model: SVM. Most confused pairs (true -> predicted, share):
+  zuey -> zuad: 0.63
+  hamza -> haa: 0.51
+  khay -> hay: 0.33
+  suad -> alif: 0.33
+  ghain -> ain: 0.33
+  ddal -> tuey: 0.33
+  meem -> seen: 0.31
+  qauf -> tay: 0.30
+
+Lowest per-sign F1 for the best model:
+hamza    0.503
+zuey     0.510
+haa      0.574
+seen     0.651
+zuad     0.718
+dtype: float64
+
+=== Model comparison, look-alike signs merged (train_eval.py --merge haa,hamza --tag _merged_v2) ===
+33 classes, sessions: ['s1', 's2', 's3'], excluded: none, merged: ['haa,hamza']
+Baseline (raw template)    accuracy=0.562  macro-F1=0.509
+SVM on raw coordinates     accuracy=0.741  macro-F1=0.707
+KNN                        accuracy=0.859  macro-F1=0.827
+SVM                        accuracy=0.900  macro-F1=0.869
+Random Forest              accuracy=0.850  macro-F1=0.816
+
+Best model: SVM. Most confused pairs (true -> predicted, share):
+  zuey -> zuad: 0.63
+  suad -> alif: 0.33
+  ghain -> ain: 0.33
+  khay -> hay: 0.33
+  ddal -> tuey: 0.33
+  meem -> seen: 0.31
+  qauf -> tay: 0.30
+  gaaf -> haa+hamza: 0.18
+
+Lowest per-sign F1 for the best model:
+zuey    0.510
+seen    0.651
+zuad    0.718
+meem    0.755
+ddal    0.763
+dtype: float64
+
+=== Kalman filter experiment (kalman_experiment.py) ===
+Estimated measurement noise (std) per axis: {'x': 0.00148, 'y': 0.00223, 'z': 0.00332}
+
+            setting  jitter  flicker_per_second  accuracy
+    Raw (no filter)  0.0165              0.6085    0.8694
+Kalman, Q/R = 0.001  0.0054              0.2181    0.8673
+ Kalman, Q/R = 0.01  0.0066              0.2688    0.8670
+  Kalman, Q/R = 0.1  0.0088              0.3144    0.8683
+  Kalman, Q/R = 1.0  0.0118              0.4209    0.8685
+
+=== Feedback threshold trade-off (feedback_tradeoff.py) ===
+ threshold  false_alarm  named_at_30deg  named_at_45deg
+       2.0        0.334           0.892           0.947
+       2.5        0.217           0.871           0.935
+       3.0        0.161           0.845           0.924
+       3.5        0.124           0.819           0.908
+       4.0        0.094           0.769           0.889
+       5.0        0.067           0.618           0.853
+
+Suggested threshold (lowest with at most 10% false alarms): 4.0
+
+=== Feedback engine validation (feedback_experiment.py) ===
+False alarms on CORRECT attempts: 9.4% of attempts wrongly flagged
+
+Share of deliberate mistakes where the right finger was named:
+       named_correctly  mean_score
+delta                             
+15               0.088      49.758
+30               0.769      16.934
+45               0.889       6.819
+60               0.937       4.201
+
+Per finger at a 45-degree mistake:
+finger
+index     0.934
+middle    0.855
+pinky     0.827
+ring      0.855
+thumb     0.972
+
+Example, sign 'alif' with the index finger changed by 45 degrees:
+{'score': 0.0, 'finger': 'index', 'message': 'Your index finger: bend a little more.'}
+
+=== Final model for the live trainer (train_final.py --merge haa,hamza) ===
+Trained on 6120 rows, 33 classes. Saved to models/psl_svm.joblib
+
