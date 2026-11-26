@@ -1,0 +1,88 @@
+{
+    "dataset": {
+        "total_samples": 6120,
+        "training_samples": 4080,
+        "test_samples": 2040,
+        "number_of_signs": 34,
+        "number_of_features": 75,
+        "training_sessions": [
+            "s1",
+            "s2"
+        ],
+        "test_session": "s3"
+    },
+    "models": [
+        {
+            "model": "baseline_svm",
+            "accuracy": 0.9333333333333333,
+            "macro_f1": 0.9170551984572871,
+            "weighted_f1": 0.917055198457287,
+            "training_time_seconds": 0.18,
+            "optimization_time_seconds": NaN,
+            "selected_features": NaN,
+            "total_features": NaN,
+            "best_C": NaN,
+            "best_gamma": NaN,
+            "cross_validation_fitness": NaN
+        },
+        {
+            "model": "genetic_svm",
+            "accuracy": 0.9151960784313725,
+            "macro_f1": 0.9018959175699324,
+            "weighted_f1": 0.9018959175699325,
+            "training_time_seconds": NaN,
+            "optimization_time_seconds": 27.42,
+            "selected_features": 35.0,
+            "total_features": 75.0,
+            "best_C": 100.0,
+            "best_gamma": 0.01,
+            "cross_validation_fitness": 0.7278980012610362
+        }
+    ],
+    "clustering": {
+        "0": [
+            "alif",
+            "seen",
+            "suad",
+            "ain",
+            "bariyay"
+        ],
+        "3": [
+            "bay",
+            "ray",
+            "zzay",
+            "sheen",
+            "zuad",
+            "zuey",
+            "ghain",
+            "fay",
+            "meem",
+            "noon",
+            "chotiyay"
+        ],
+        "4": [
+            "pay",
+            "tay",
+            "qauf"
+        ],
+        "1": [
+            "say",
+            "dal",
+            "ddal",
+            "zal",
+            "zay",
+            "tuey",
+            "kaaf",
+            "laam",
+            "wow"
+        ],
+        "2": [
+            "chay",
+            "hay",
+            "khay",
+            "gaaf",
+            "haa",
+            "hamza"
+        ]
+    }
+}

@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local application data and databases
+AppData/
+data/*.db
+data/*.db-journal
+
+# Local environment files
+.env

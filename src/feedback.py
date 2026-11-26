@@ -40,7 +40,7 @@ class FeedbackEngine:
         """
         mean = self.mean.loc[list(labels), ANGLES].to_numpy()
         std = self.std.loc[list(labels), ANGLES].to_numpy()
-        z = ((np.asarray(angle_matrix, dtype=float) - mean) / std).reshape(-1, 5, 3)
+        z = ((np.asarray(angle_matrix, dtype=float) - mean) / std).reshape(-1, len(FINGERS), 3)
         return np.abs(z).mean(axis=2), z.mean(axis=2)
 
     def score(self, size):
